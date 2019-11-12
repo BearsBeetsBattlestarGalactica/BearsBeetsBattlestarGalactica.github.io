@@ -52,24 +52,21 @@
 
         $.getJSON("https://stats.oecd.org/SDMX-JSON/data/AIR_GHG/all?startTime=1990&endTime=2017&dimensionAtObservation=allDimensions&detail=dataonly", function (resp) {
         // $.getJSON("./test.json", function (resp) {
-            console.log("Hello world!!!!!!");
             var obsvs = resp.dataSets[0].observations;
 
             for (var i = 0, len = Object.keys(obsvs).length; i < len; i++) {
                 var arrKey = Object.keys(obsvs)[i].split(':')
 
-                console.log("Hello world!");
+                // console.log("Hello world!");
                 cou = resp.structure.dimensions.observation[0].values[arrKey[0]].name;
-                console.log("cou is:" + cou);
+                // console.log("cou is:" + cou);
                 pol = resp.structure.dimensions.observation[1].values[arrKey[1]].name;
-                console.log("pol is:" + pol);
+                // console.log("pol is:" + pol);
                 vari = resp.structure.dimensions.observation[2].values[arrKey[2]].name;
-                console.log("vari is:" + vari);
+                // console.log("vari is:" + vari);
                 time = resp.structure.dimensions.observation[3].values[arrKey[3]].name;
-                console.log("time is:" + time);
+                // console.log("time is:" + time);
                 obs = obsvs[Object.keys(obsvs)[i]][0];
-                console.log(obs);
-                test = obsvs[Object.keys(obsvs)[i]][1];
 
                 tableData.push({
                     "cou": cou,

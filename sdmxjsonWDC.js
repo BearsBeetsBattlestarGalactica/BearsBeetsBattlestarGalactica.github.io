@@ -22,10 +22,6 @@
             id: "obs",
             alias: "observation",
             dataType: tableau.dataTypeEnum.float
-        }, {
-            id: "test",
-            alias: "test",
-            dataType: tableau.dataTypeEnum.string
         }];
 
         var tableSchema = {
@@ -47,11 +43,10 @@
             pol = "",
             vari = "",
             time = "",
-            obs = 0,
-            test = "";
+            obs = 0;
 
-        $.getJSON("https://stats.oecd.org/SDMX-JSON/data/AIR_GHG/all?startTime=1990&endTime=2017&dimensionAtObservation=allDimensions&detail=dataonly", function (resp) {
-        // $.getJSON("./test.json", function (resp) {
+        // $.getJSON("https://stats.oecd.org/SDMX-JSON/data/AIR_GHG/all?startTime=1990&endTime=2017&dimensionAtObservation=allDimensions&detail=dataonly", function (resp) {
+        $.getJSON("./test.json", function (resp) {
             var obsvs = resp.dataSets[0].observations;
 
             for (var i = 0, len = Object.keys(obsvs).length; i < len; i++) {
@@ -73,9 +68,7 @@
                     "pol": pol,
                     "vari": vari,
                     "time": time,
-                    "obs": obs,
-                    "test": test,
-
+                    "obs": obs
                 });
             }
 

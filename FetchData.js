@@ -35,7 +35,7 @@
 
     myConnector.getData = function (table, doneCallback) {
 
-        $.getJSON("https://stats.oecd.org/SDMX-JSON/data/AIR_GHG/all?startTime=1990&endTime=2017&dimensionAtObservation=allDimensions&detail=dataonly", function (resp) {
+        $.getJSON("https://stats.oecd.org/SDMX-JSON/data/AIR_GHG/AUS+AUT+BEL+CAN+CHL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+EU28+OECDE+OECD+NMEC+ARG+BRA+CHN+COL+CRI+IND+IDN+RUS+ZAF.GHG+CO2+CH4+N2O+HFC_PFC+HFC+PFC+SF6+NF3.TOTAL+ENER+ENER_IND+ENER_MANUF+ENER_TRANS+ENER_OSECT+ENER_OTH+ENER_FU+ENER_CO2+IND_PROC+AGR+WAS+OTH+LULUCF+AFOLU+TOTAL_LULU/all?startTime=1990&endTime=2017&dimensionAtObservation=allDimensions&detail=dataonly", function (resp) {
             var obsvs = resp.dataSets[0].observations,
                 tableData = [],
                 i = 0,

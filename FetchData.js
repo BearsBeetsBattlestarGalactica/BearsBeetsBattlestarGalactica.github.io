@@ -1,5 +1,7 @@
 (function () {
     var myConnector = tableau.makeConnector();
+    var debug = false;
+    var queryString = "https://stats.oecd.org/SDMX-JSON/data/AIR_GHG/AUS+AUT+BEL+CAN+CHL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+OECDAO+EU28+OECDE+OECD+NMEC+ARG+BRA+CHN+COL+CRI+IND+IDN+RUS+ZAF+OECDAM.GHG.TOTAL+ENER+ENER_IND+ENER_MANUF+ENER_TRANS+ENER_OSECT+ENER_OTH+ENER_FU+ENER_CO2+IND_PROC+AGR+WAS+OTH+LULUCF+AFOLU+TOTAL_LULU/all?startTime=1990&endTime=2017&dimensionAtObservation=allDimensions";
 
     myConnector.getSchema = function (schemaCallback) {
         var cols = [{
@@ -35,7 +37,9 @@
 
     myConnector.getData = function (table, doneCallback) {
 
-        $.getJSON("https://stats.oecd.org/SDMX-JSON/data/AIR_GHG/AUS+AUT+BEL+CAN+CHL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+ISL+IRL+ISR+ITA+JPN+KOR+LVA+LTU+LUX+MEX+NLD+NZL+NOR+POL+PRT+SVK+SVN+ESP+SWE+CHE+TUR+GBR+USA+OECDAO+EU28+OECDE+OECD+NMEC+ARG+BRA+CHN+COL+CRI+IND+IDN+RUS+ZAF+OECDAM.GHG.TOTAL+ENER+ENER_IND+ENER_MANUF+ENER_TRANS+ENER_OSECT+ENER_OTH+ENER_FU+ENER_CO2+IND_PROC+AGR+WAS+OTH+LULUCF+AFOLU+TOTAL_LULU/all?startTime=1990&endTime=2017&dimensionAtObservation=allDimensions", function (resp) {
+        $.getJSON(queryString, function (resp) {
+            if (debug) console.log('retrieved all measurements: %o', resp);
+
             var obsvs = resp.dataSets[0].observations,
                 tableData = [],
                 i = 0,
@@ -50,6 +54,10 @@
                     "time": resp.structure.dimensions.observation[3].values[arrKey[3]].name,
                     "obs": obsvs[Object.keys(obsvs)[i]][0]
                 });
+            }
+
+            if (debug) {
+                console.log("Convertion done...");
             }
 
             table.appendRows(tableData);

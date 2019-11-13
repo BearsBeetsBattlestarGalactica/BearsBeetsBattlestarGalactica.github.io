@@ -25,8 +25,8 @@
         }];
 
         var tableSchema = {
-            id: "test_DB_schema",
-            alias: "Laaaaaa",
+            id: "OECD_GHG_Emissions",
+            alias: "GHG Emissions",
             columns: cols
         };
 
@@ -34,9 +34,6 @@
     };
 
     myConnector.getData = function (table, doneCallback) {
-        // var dateObj = JSON.parse(tableau.connectionData),
-        //     dateString = "startTime=" + dateObj.startDate + "&endTime=" + dateObj.endDate,
-        //     apiCall = "https://stats.oecd.org/SDMX-JSON/data/AIR_GHG/all?" + dateString + "&dimensionAtObservation=allDimensions&detail=dataonly";
 
         $.getJSON("https://stats.oecd.org/SDMX-JSON/data/AIR_GHG/all?startTime=1990&endTime=2017&dimensionAtObservation=allDimensions&detail=dataonly", function (resp) {
             var obsvs = resp.dataSets[0].observations,
@@ -45,10 +42,6 @@
                 arrKey;
 
             for (i = 0, len = Object.keys(obsvs).length; i < len; i++) {
-                // if (i%1000 == 0) {
-                //     console.log("Converting, this is no. " + i + " line.");
-                // }
-
                 arrKey = Object.keys(obsvs)[i].split(':');
                 tableData.push({
                     "cou": resp.structure.dimensions.observation[0].values[arrKey[0]].name,
@@ -59,8 +52,6 @@
                 });
             }
 
-            console.log("Convertion done...");
-
             table.appendRows(tableData);
             doneCallback();
         });
@@ -69,36 +60,9 @@
 
     tableau.registerConnector(myConnector);
 
-
-    // Create event listeners for when the user submits the form
-    // $(document).ready(function() {
-    //     $("#submitButton").click(function() {
-    //         var dateObj = {
-    //             startDate: $('#start-year').val().trim(),
-    //             endDate: $('#end-year').val().trim(),
-    //         };
-
-    //         // Simple date validation: Call the getDate function on the date object created
-    //         function isValidDate(dateStr) {
-    //             var d = new Date(dateStr);
-    //             return !isNaN(d.getDate());
-    //         }
-
-    //         console.log("submit success");
-
-    //         if (isValidDate(dateObj.startDate) && isValidDate(dateObj.endDate)) {
-    //             tableau.connectionData = JSON.stringify(dateObj); // Use this variable to pass data to your getSchema and getData functions
-    //             tableau.connectionName = "USGS Earthquake Feed"; // This will be the data source name in Tableau
-    //             tableau.submit(); // This sends the connector object to Tableau
-    //         } else {
-    //             $('#errorMsg').html("Enter valid dates. For example, 2016-05-08.");
-    //         }
-    //     });
-    // });
-
     $(document).ready(function () {
         $("#submitButton").click(function () {
-            tableau.connectionName = "OECD Emissions of air pollutants";
+            tableau.connectionName = "OECD Greenhouse Gas Emissions";
             tableau.submit();
         });
     });

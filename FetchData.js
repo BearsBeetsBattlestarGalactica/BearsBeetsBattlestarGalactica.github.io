@@ -38,39 +38,28 @@
         //     dateString = "startTime=" + dateObj.startDate + "&endTime=" + dateObj.endDate,
         //     apiCall = "https://stats.oecd.org/SDMX-JSON/data/AIR_GHG/all?" + dateString + "&dimensionAtObservation=allDimensions&detail=dataonly";
 
-        var tableData = [],
-            cou = "",
-            pol = "",
-            vari = "",
-            time = "",
-            obs = 0;
+        $.getJSON("https://stats.oecd.org/SDMX-JSON/data/AIR_GHG/all?startTime=1990&endTime=2017&dimensionAtObservation=allDimensions&detail=dataonly", function (resp) {
+            var obsvs = resp.dataSets[0].observations,
+                tableData = [],
+                i = 0,
+                arrKey;
 
-        // $.getJSON("https://stats.oecd.org/SDMX-JSON/data/AIR_GHG/all?startTime=1990&endTime=2017&dimensionAtObservation=allDimensions&detail=dataonly", function (resp) {
-        $.getJSON("./test.json", function (resp) {
-            var obsvs = resp.dataSets[0].observations;
+            for (i = 0, len = Object.keys(obsvs).length; i < len; i++) {
+                // if (i%1000 == 0) {
+                //     console.log("Converting, this is no. " + i + " line.");
+                // }
 
-            for (var i = 0, len = Object.keys(obsvs).length; i < len; i++) {
-                var arrKey = Object.keys(obsvs)[i].split(':')
-
-                // console.log("Hello world!");
-                cou = resp.structure.dimensions.observation[0].values[arrKey[0]].name;
-                // console.log("cou is:" + cou);
-                pol = resp.structure.dimensions.observation[1].values[arrKey[1]].name;
-                // console.log("pol is:" + pol);
-                vari = resp.structure.dimensions.observation[2].values[arrKey[2]].name;
-                // console.log("vari is:" + vari);
-                time = resp.structure.dimensions.observation[3].values[arrKey[3]].name;
-                // console.log("time is:" + time);
-                obs = obsvs[Object.keys(obsvs)[i]][0];
-
+                arrKey = Object.keys(obsvs)[i].split(':');
                 tableData.push({
-                    "cou": cou,
-                    "pol": pol,
-                    "vari": vari,
-                    "time": time,
-                    "obs": obs
+                    "cou": resp.structure.dimensions.observation[0].values[arrKey[0]].name,
+                    "pol": resp.structure.dimensions.observation[1].values[arrKey[1]].name,
+                    "vari": resp.structure.dimensions.observation[2].values[arrKey[2]].name,
+                    "time": resp.structure.dimensions.observation[3].values[arrKey[3]].name,
+                    "obs": obsvs[Object.keys(obsvs)[i]][0]
                 });
             }
+
+            console.log("Convertion done...");
 
             table.appendRows(tableData);
             doneCallback();
